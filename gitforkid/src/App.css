@@ -1,30 +1,85 @@
-body {
-    background-color: #F0F5F9;
-
+.container {
+    display: flex;
 }
 
-.navbar {
-    background-color: #1E2022;
+.n {
+
     width: 100%;
-    height: 80px;
+    height: 100vh;
+}
+
+.zone {
+    width: 33.333%;
+    height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
-.logo {
+.zone-name {
+    margin-top: 10px;
+}
+
+.repo {
+    background-color: #d9d9d9;
+}
+
+.stage {
+    background-color: #f0f5f9;
+}
+
+.directory {
+    background-color: #fcd76a;
+}
+
+.comand-line {
+    width: 1000px;
+    height: 270px;
+    position: absolute;
+    bottom: 0px;
+    
+    right: 25%;
+    background-color:#1e1e1e;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.task {
+    width: 900px;
+    margin-top: 25px;
+    color: #e1e1e1;
+}
+
+textarea {
+    width: 900px;
     height: 60px;
+    background-color: #121212;
+    margin-top: 10px;
+    color: #e1e1e1;
+    border-color: #1e1e1e;
 }
 
-.title {
-    font-family: 'Montserrat', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 36px;
-    line-height: 44px;
-    color: #F0F5F9;
+textarea:focus{
+    border-color: #1e1e1e;
+    stroke: #121212;
 }
 
-.navButton {
-    color: #8682fb !important;
+.box-container {
+    margin-top: 30px;
+    width: 70%;
+    height: 70%;
+    /* border: #fcd76a 1px solid; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    align-content: start;
 }
+
+.mapedBox {
+    height: 98px;
+    width: 80px;
+
+}
+
