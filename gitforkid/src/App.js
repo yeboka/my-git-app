@@ -44,14 +44,25 @@ const stageBoxes = [
 
 const directoryBoxes = [
   {
-    name: 'box1',
+    name: 'box14',
     status: 'tracked',
     commitMess: 'first box'
-  },
-  
+  }, 
+  {
+    name: 'box15',
+    status: 'tracked',
+    commitMess: 'first box'
+  }, 
+  {
+    name: 'box16',
+    status: 'tracked',
+    commitMess: 'first box'
+  }, 
 ]
 
-
+const commands = [
+  'add', 'push', 'commit -m', 'pull', 'status'
+]
 
 function App() {
 
@@ -59,10 +70,70 @@ function App() {
   const [stage, setStage] = useState(stageBoxes);
   const [directory, setDirectory] = useState(directoryBoxes);
 
-
   const handleComand = (event) => {
     if (event.key === "Enter") {
-      
+
+      const text = event.target.value.substring(event.target.value.lastIndexOf('\n') + 1);
+      let command = parseInput(text);
+      if(parseInput(text)){
+      console.log(command);
+      let fileName = command.substring(command.indexOf(' ')).trim();
+      switch (command.substring(0, command.indexOf(' '))) {
+        case 'add':
+          gitAdd(fileName);
+          break;
+        case 'commit': 
+          console.log('good');
+          gitCimmit(fileName);
+          break;
+        default:
+          break;
+      }}
+    }
+  }
+
+  
+
+  const gitCimmit = (mes) => {
+      //fixme
+      mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
+        const commit = stage.map((file) => {
+          file.commitMess = mes;
+          file.status = 'commited';
+          return file;
+        })
+        const newCommit = [...directory, ...commit];
+        console.log(newCommit);
+        setDirectory(newCommit);
+        setStage([]);
+    
+  }
+
+  const gitAdd = (fileName) => {
+    if (fileName === '*') {
+      setDirectory([])
+      const newStage = [...stage, ...directory]
+      setStage(newStage);
+    } else {
+      const mkdir = directory.filter((val) => (fileName !== val.name))
+      const cf = directory.filter((val) => (fileName === val.name))
+      setDirectory(mkdir);
+      const newStage = [...stage, cf[0]];
+      setStage(newStage);
+    }
+  }
+
+  const parseInput = (input) => {
+    if(input.startsWith('git add')){
+      return 'add' + input.substring(7)
+    } else if(input.startsWith('git status')){
+      return 'status' + input.substring(10)
+    } else if(input.startsWith('git commit -m')){
+      return 'commit' + input.substring(13)
+    } else if(input.startsWith('git push origin')){
+      return 'push' + input.substring(15)
+    }else {
+      return false;
     }
   }
 
