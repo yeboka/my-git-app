@@ -117,7 +117,10 @@ function App() {
 
   const gitCimmit = (mes) => {
       //fixme
-      mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
+      if (mes[0] === '"' && mes[mes.length() - 1] === '"'){
+        mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
+      
+      
         const commit = stage.map((file) => {
           file.commitMess = mes;
           file.status = 'unmodified_toBeCommited';
@@ -127,6 +130,11 @@ function App() {
         console.log(newCommit);
         setDirectory(newCommit);
         setStage([]);
+      } else {
+        console.log('you forget ticks');
+      }
+
+
     
   }
 
