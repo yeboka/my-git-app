@@ -32,12 +32,12 @@ const repoBoxes = [
 ]
 const stageBoxes = [
   {
-    name: 'box1',
+    name: 'box55',
     status: 'staged',
     commitMess: 'first box'
   },
   {
-    name: 'box2',
+    name: 'box45',
     status: 'staged',
     commitMess: 'first box'
   },
@@ -89,8 +89,11 @@ function App() {
           gitCimmit(fileName);
           break;
         case 'status':
-          console.log('active'); 
           setModalActive(true);
+          break;
+        case 'push':
+          console.log('succes');
+          gitPush();
           break;
         default:
           break;
@@ -98,13 +101,26 @@ function App() {
     }
   }
 
+  const gitPush = () => {
+    let toPush = directory.filter((file) => file.status.includes('_toBeCommited'));
+    console.log(toPush);
+    toPush = [...repo, ...toPush];
+    const newDirectory = directory.filter((file) => !(file.status.includes('_toBeCommited')))
+    const pushed = toPush.map((file) => {
+      file.status = 'unmodified';
+      return file;
+    })
+    setRepo(pushed);
+    setDirectory(newDirectory);
+    console.log(pushed, directory);
+  }
 
   const gitCimmit = (mes) => {
       //fixme
       mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
         const commit = stage.map((file) => {
           file.commitMess = mes;
-          file.status = 'unmodified';
+          file.status = 'unmodified_toBeCommited';
           return file;
         })
         const newCommit = [...directory, ...commit];
@@ -140,7 +156,7 @@ function App() {
     } else if(input.startsWith('git commit -m')){
       return 'commit' + input.substring(13)
     } else if(input.startsWith('git push origin')){
-      return 'push' + input.substring(15)
+      return 'push'
     }else {
       return false;
     }
@@ -204,7 +220,7 @@ function App() {
     <Modal active = {modalActive} setActive = {setModalActive}>
       <div>
       {allFiles.map((file) => (
-        <div>
+        <div key = {file.name}>
           File name: <span>{file.name}</span> ,   status: <span>{file.status + ','}</span>
         </div> 
       ))}
