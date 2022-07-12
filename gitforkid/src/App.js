@@ -1,5 +1,6 @@
 import './App.css';
 import {Landing} from './components/landing/Landing';
+import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
 import { useState } from 'react';
 const repoBoxes = [
@@ -32,12 +33,12 @@ const repoBoxes = [
 const stageBoxes = [
   {
     name: 'box1',
-    status: 'tracked',
+    status: 'staged',
     commitMess: 'first box'
   },
   {
     name: 'box2',
-    status: 'tracked',
+    status: 'staged',
     commitMess: 'first box'
   },
 ]
@@ -45,36 +46,38 @@ const stageBoxes = [
 const directoryBoxes = [
   {
     name: 'box14',
-    status: 'tracked',
+    status: 'untracked',
     commitMess: 'first box'
   }, 
   {
     name: 'box15',
-    status: 'tracked',
+    status: 'untracked',
     commitMess: 'first box'
   }, 
   {
     name: 'box16',
-    status: 'tracked',
+    status: 'untracked',
     commitMess: 'first box'
   }, 
 ]
 
-const commands = [
-  'add', 'push', 'commit -m', 'pull', 'status'
-]
-
 function App() {
+
+  // my git hub token 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
 
   const [repo, setRepo] = useState(repoBoxes);
   const [stage, setStage] = useState(stageBoxes);
   const [directory, setDirectory] = useState(directoryBoxes);
+  const [modalActive, setModalActive] = useState(false);
+
+  const allFiles = [...repo, ...stage, ...directory]
+
 
   const handleComand = (event) => {
     if (event.key === "Enter") {
 
       const text = event.target.value.substring(event.target.value.lastIndexOf('\n') + 1);
-      let command = parseInput(text);
+      let command = parseInput(text) + " ";
       if(parseInput(text)){
       console.log(command);
       let fileName = command.substring(command.indexOf(' ')).trim();
@@ -83,8 +86,11 @@ function App() {
           gitAdd(fileName);
           break;
         case 'commit': 
-          console.log('good');
           gitCimmit(fileName);
+          break;
+        case 'status':
+          console.log('active'); 
+          setModalActive(true);
           break;
         default:
           break;
@@ -92,14 +98,13 @@ function App() {
     }
   }
 
-  
 
   const gitCimmit = (mes) => {
       //fixme
       mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
         const commit = stage.map((file) => {
           file.commitMess = mes;
-          file.status = 'commited';
+          file.status = 'unmodified';
           return file;
         })
         const newCommit = [...directory, ...commit];
@@ -119,6 +124,10 @@ function App() {
       const cf = directory.filter((val) => (fileName === val.name))
       setDirectory(mkdir);
       const newStage = [...stage, cf[0]];
+      const added = newStage.map((file) => {
+        file.status = 'staged';
+          return file;
+      })
       setStage(newStage);
     }
   }
@@ -127,7 +136,7 @@ function App() {
     if(input.startsWith('git add')){
       return 'add' + input.substring(7)
     } else if(input.startsWith('git status')){
-      return 'status' + input.substring(10)
+      return 'status'
     } else if(input.startsWith('git commit -m')){
       return 'commit' + input.substring(13)
     } else if(input.startsWith('git push origin')){
@@ -192,6 +201,15 @@ function App() {
         </div>
       </div>
     </div>
+    <Modal active = {modalActive} setActive = {setModalActive}>
+      <div>
+      {allFiles.map((file) => (
+        <div>
+          File name: <span>{file.name}</span> ,   status: <span>{file.status + ','}</span>
+        </div> 
+      ))}
+      </div>
+    </Modal>
     </div>
     
   );
