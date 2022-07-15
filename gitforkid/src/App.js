@@ -121,6 +121,9 @@ function App() {
         case 'pull':
           gitPull();
           break;  
+        case 'mkdir':
+          mkdir(fileName);
+          break;
         default:
           break;
       }} else {
@@ -134,6 +137,11 @@ function App() {
       event.preventDefault();
       console.log(story.pop());
     }
+  }
+
+  const mkdir = (fileName) => {
+    console.log(fileName);
+    setDirectory([...directory, {key: uuid4(), name: fileName, status: 'untracked'}])
   }
 
   const gitPull = () => {
@@ -220,6 +228,8 @@ function App() {
       return 'push'
     } else if(input.startsWith('git pull origin')){
       return 'pull'
+    }else if(input.startsWith('mkdir')){
+      return 'mkdir' + input.substring(5)
     }else {
       return false;
     }
@@ -233,7 +243,7 @@ function App() {
     <div className='container'>
 
       <motion.div className='comand-line'
-      whileHover={{ scale: 1.3 }}>
+      whileHover={{ translateX: 50}}>
         {/* <input type="text" /> */}
         <div className='task'>
           task
@@ -251,6 +261,9 @@ function App() {
             repo.map((box) => (
               <motion.div className='mapedBox' key={box.key}
               whileHover={{ scale: 1.3 }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
               >
                 <BoxImg name = {box.name} status = {box.status} />
               </motion.div>
@@ -266,7 +279,10 @@ function App() {
           {
             stage.map((box) => (
               <motion.div className='mapedBox' key={box.key}
-              whileHover={{ scale: 1.3 }}>
+              whileHover={{ scale: 1.3 }} 
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}>
                 <BoxImg name = {box.name} status = {box.status} />
               </motion.div>
             ))
@@ -281,7 +297,10 @@ function App() {
           {
             directory.map((box) => (
               <motion.div className='mapedBox' key={box.key}
-              whileHover={{ scale: 1.3 }}>
+              whileHover={{ scale: 1.3 }} 
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}>
                 <BoxImg name = {box.name} status = {box.status} />
               </motion.div>
             ))
@@ -298,9 +317,11 @@ function App() {
       ))}
       </div>
     </Modal>
-    <InfoButton className="icon" onClick={() => setInfoActive(true)}/>
-    <Modal active={infoActive} setInfoActive = {setInfoActive}>
-    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type an
+    
+      <InfoButton className="icon" onClick={() => setInfoActive(!infoActive)}/>
+    
+    <Modal active={infoActive} setActive = {setInfoActive}>
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type an
     </Modal>
     </div>
     
