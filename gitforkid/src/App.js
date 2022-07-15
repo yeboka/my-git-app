@@ -1,30 +1,41 @@
 import './App.css';
+
+import { v4 as uuid4} from 'uuid';
+import { motion } from "framer-motion"
+import { useState } from 'react';
+
+
 import {Landing} from './components/landing/Landing';
 import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
-import { useState } from 'react';
+
 const repoBoxes = [
   {
+    key: uuid4(),
     name: 'box1',
     status: 'tracked',
     commitMess: 'first box'
   },
   {
+    key: uuid4(),
     name: 'box2',
     status: 'tracked',
     commitMess: 'first box'
   },
   {
+    key: uuid4(),
     name: 'box3',
     status: 'tracked',
     commitMess: 'first box'
   },
   {
+    key: uuid4(),
     name: 'box4',
     status: 'tracked',
     commitMess: 'first box'
   },
   {
+    key: uuid4(),
     name: 'box5',
     status: 'tracked',
     commitMess: 'first box'
@@ -32,11 +43,13 @@ const repoBoxes = [
 ]
 const stageBoxes = [
   {
+    key: uuid4(),
     name: 'box55',
     status: 'staged',
     commitMess: 'first box'
   },
   {
+    key: uuid4(),
     name: 'box45',
     status: 'staged',
     commitMess: 'first box'
@@ -45,16 +58,19 @@ const stageBoxes = [
 
 const directoryBoxes = [
   {
+    key: uuid4(),
     name: 'box14',
     status: 'untracked',
     commitMess: 'first box'
   }, 
   {
+    key: uuid4(),
     name: 'box15',
     status: 'untracked',
     commitMess: 'first box'
   }, 
   {
+    key: uuid4(),
     name: 'box16',
     status: 'untracked',
     commitMess: 'first box'
@@ -69,6 +85,7 @@ function App() {
   const [stage, setStage] = useState(stageBoxes);
   const [directory, setDirectory] = useState(directoryBoxes);
   const [modalActive, setModalActive] = useState(false);
+  
 
   const allFiles = [...repo, ...stage, ...directory]
 
@@ -95,19 +112,42 @@ function App() {
           console.log('succes');
           gitPush();
           break;
+        case 'pull':
+          gitPull();
+          break;  
         default:
           break;
       }}
     }
   }
 
+  const gitPull = () => {
+    let toDirectory = repo.map((file) => ({...file, key: uuid4()}))
+
+    let toPull = [];
+    for (let i = 0; i < toDirectory.length; i++) {
+      const element = toDirectory[i];
+      let count = 0;
+      for (let j = 0; j < directory.length; j++) {
+        const e = directory[j];
+        if(e.name === element.name) count++;
+        
+      }
+      console.log(count);
+      if(count <= 1) {toPull.push(element)}
+    }
+    console.log(toPull);
+    setDirectory(toPull);
+  }
+ 
   const gitPush = () => {
     let toPush = directory.filter((file) => file.status.includes('_toBeCommited'));
     console.log(toPush);
     toPush = [...repo, ...toPush];
-    const newDirectory = directory.filter((file) => !(file.status.includes('_toBeCommited')))
+    const newDirectory = directory.map((file) => ({...file, status: 'unmodified', key: uuid4()}))
     const pushed = toPush.map((file) => {
       file.status = 'unmodified';
+      file.key = uuid4();
       return file;
     })
     setRepo(pushed);
@@ -117,7 +157,7 @@ function App() {
 
   const gitCimmit = (mes) => {
       //fixme
-      if (mes[0] === '"' && mes[mes.length() - 1] === '"'){
+      if (mes[0] === '"' && mes[mes.length - 1] === '"'){
         mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
       
       
@@ -165,6 +205,8 @@ function App() {
       return 'commit' + input.substring(13)
     } else if(input.startsWith('git push origin')){
       return 'push'
+    } else if(input.startsWith('git pull origin')){
+      return 'pull'
     }else {
       return false;
     }
@@ -189,9 +231,11 @@ function App() {
         <div className='box-container'>
           {
             repo.map((box) => (
-              <div className='mapedBox' key={box.name}>
-                <BoxImg name = {box.name}/>
-              </div>
+              <motion.div className='mapedBox' key={box.key}
+              whileHover={{ scale: 1.3 }}
+              >
+                <BoxImg name = {box.name} status = {box.status} />
+              </motion.div>
             ))
           }
         </div>
@@ -203,9 +247,10 @@ function App() {
         <div className='box-container'>
           {
             stage.map((box) => (
-              <div className='mapedBox' key={box.name}>
-                <BoxImg name = {box.name}/>
-              </div>
+              <motion.div className='mapedBox' key={box.key}
+              whileHover={{ scale: 1.3 }}>
+                <BoxImg name = {box.name} status = {box.status} />
+              </motion.div>
             ))
           }
         </div>
@@ -217,9 +262,10 @@ function App() {
         <div className='box-container'>
           {
             directory.map((box) => (
-              <div className='mapedBox' key={box.name}>
-                <BoxImg name = {box.name}/>
-              </div>
+              <motion.div className='mapedBox' key={box.key}
+              whileHover={{ scale: 1.3 }}>
+                <BoxImg name = {box.name} status = {box.status} />
+              </motion.div>
             ))
           }
         </div>
@@ -228,8 +274,8 @@ function App() {
     <Modal active = {modalActive} setActive = {setModalActive}>
       <div>
       {allFiles.map((file) => (
-        <div key = {file.name}>
-          File name: <span>{file.name}</span> ,   status: <span>{file.status + ','}</span>
+        <div key = {file.key}>
+          File name: <span>{file.name}</span> ; status: <span>{file.status + ','}</span>
         </div> 
       ))}
       </div>

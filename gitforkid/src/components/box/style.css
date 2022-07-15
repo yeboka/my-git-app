@@ -1,9 +1,40 @@
+body {
+    background-color:rgba(0, 0, 0, 0);
+    
+}
+
 img {
     width: 80px;
     height: 80px;
 }
 
+.d{
+    margin: 7px;
+}
+
+.onHover {
+    width: 100px;
+    height: 140px;
+    padding:5px;
+    background-color:rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 10%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    transform: translateX(-15px);
+    color: aliceblue;
+    overflow-wrap: break-word;
+    inline-size: 100px;
+}
+
 .card {
+    margin-top: 7px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.status {
+    color:cyan;
 }

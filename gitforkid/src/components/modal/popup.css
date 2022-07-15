@@ -21,7 +21,7 @@
 .modal-content {
     padding: 20px;
     border-radius: 10px;
-    background-color:beige;
+    background-color:rgba(0, 0, 0, .3);
     width: 35vw;
     transition: 0.5s all;
     transform: scale(0.5);
@@ -32,4 +32,8 @@
 
 .modal-content.active {
     transform: scale(1);
+}
+
+span {
+    color:crimson;
 }
