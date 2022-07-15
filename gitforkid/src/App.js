@@ -8,6 +8,7 @@ import { useState } from 'react';
 import {Landing} from './components/landing/Landing';
 import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
+import { InfoButton } from './components/infoButton/InfoButton';
 
 const repoBoxes = [
   {
@@ -85,6 +86,10 @@ function App() {
   const [stage, setStage] = useState(stageBoxes);
   const [directory, setDirectory] = useState(directoryBoxes);
   const [modalActive, setModalActive] = useState(false);
+  const [eMess, setEMess] = useState('');
+  const [story, setStory] = useState([]);
+  const [currentVal, setCurrentVal] = useState('');
+  const [infoActive, setInfoActive] = useState(false)
   
 
   const allFiles = [...repo, ...stage, ...directory]
@@ -92,8 +97,9 @@ function App() {
 
   const handleComand = (event) => {
     if (event.key === "Enter") {
-
+      
       const text = event.target.value.substring(event.target.value.lastIndexOf('\n') + 1);
+      setStory([...story, text]);
       let command = parseInput(text) + " ";
       if(parseInput(text)){
       console.log(command);
@@ -103,7 +109,7 @@ function App() {
           gitAdd(fileName);
           break;
         case 'commit': 
-          gitCimmit(fileName);
+          gitCommit(fileName);
           break;
         case 'status':
           setModalActive(true);
@@ -117,7 +123,16 @@ function App() {
           break;  
         default:
           break;
-      }}
+      }} else {
+        console.log(event.target.value + 'it is not git command');
+        setEMess(' it is not git command');
+        setCurrentVal(currentVal + eMess);
+      }
+    } else if (event.key=== "ArrowUp") {
+
+      setCurrentVal( currentVal + '\n' +story.pop())
+      event.preventDefault();
+      console.log(story.pop());
     }
   }
 
@@ -155,11 +170,9 @@ function App() {
     console.log(pushed, directory);
   }
 
-  const gitCimmit = (mes) => {
-      //fixme
+  const gitCommit = (mes) => {
       if (mes[0] === '"' && mes[mes.length - 1] === '"'){
         mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
-      
       
         const commit = stage.map((file) => {
           file.commitMess = mes;
@@ -212,18 +225,23 @@ function App() {
     }
   }
 
-  return (
+
+  return ( 
     <div className='n'>
     
 
     <div className='container'>
-      <div className='comand-line'>
+
+      <motion.div className='comand-line'
+      whileHover={{ scale: 1.3 }}>
         {/* <input type="text" /> */}
         <div className='task'>
           task
         </div>
-        <textarea cols="50" rows="2" onKeyPress={(event) => {handleComand(event)}}></textarea>
-      </div>
+        <textarea value={currentVal} onChange={(event) => {
+          setCurrentVal(event.target.value)
+        }} cols="50" rows="2" onKeyDown={(event) => {handleComand(event)}}></textarea>
+      </motion.div>
       <div className='zone repo'>
         <div className='zone-name'>  
           git repo
@@ -279,6 +297,10 @@ function App() {
         </div> 
       ))}
       </div>
+    </Modal>
+    <InfoButton className="icon" onClick={() => setInfoActive(true)}/>
+    <Modal active={infoActive} setInfoActive = {setInfoActive}>
+    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type an
     </Modal>
     </div>
     

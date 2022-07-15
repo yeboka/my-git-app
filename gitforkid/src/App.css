@@ -83,3 +83,9 @@ textarea:focus{
 
 }
 
+.icon {
+    position: fixed;
+    bottom: 50px;
+    left: 50px;
+}
+
