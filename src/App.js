@@ -89,7 +89,8 @@ function App() {
   const [eMess, setEMess] = useState('');
   const [story, setStory] = useState([]);
   const [currentVal, setCurrentVal] = useState('');
-  const [infoActive, setInfoActive] = useState(false)
+  const [infoActive, setInfoActive] = useState(false);
+  const [index, setIndex] = useState(story.length - 1);
   
 
   const allFiles = [...repo, ...stage, ...directory]
@@ -99,7 +100,9 @@ function App() {
     if (event.key === "Enter") {
       
       const text = event.target.value.substring(event.target.value.lastIndexOf('\n') + 1);
-      setStory([...story, text]);
+      if(text === '') console.log('just enter');
+      else {
+      
       let command = parseInput(text) + " ";
       if(parseInput(text)){
       console.log(command);
@@ -107,22 +110,34 @@ function App() {
       switch (command.substring(0, command.indexOf(' '))) {
         case 'add':
           gitAdd(fileName);
+          setStory([...story, text]);
+          setIndex(story.length);
           break;
         case 'commit': 
           gitCommit(fileName);
+          setStory([...story, text]);
+          setIndex(story.length);
           break;
         case 'status':
           setModalActive(true);
+          setStory([...story, text]);
+          setIndex(story.length);
           break;
         case 'push':
           console.log('succes');
+          setStory([...story, text]);
+          setIndex(story.length);
           gitPush();
           break;
         case 'pull':
           gitPull();
+          setStory([...story, text]);
+          setIndex(story.length);
           break;  
         case 'mkdir':
           mkdir(fileName);
+          setStory([...story, text]);
+          setIndex(story.length);
           break;
         default:
           break;
@@ -130,12 +145,21 @@ function App() {
         console.log(event.target.value + 'it is not git command');
         setEMess(' it is not git command');
         setCurrentVal(currentVal + eMess);
-      }
+      }}
     } else if (event.key=== "ArrowUp") {
-
-      setCurrentVal( currentVal + '\n' +story.pop())
       event.preventDefault();
-      console.log(story.pop());
+      console.log(story, story.length,index); 
+      if (index >= 0){
+        if (index === story.length - 1) {
+          setCurrentVal( currentVal + story[index] )
+        }else {
+          let s = currentVal.substring(0, currentVal.lastIndexOf('\n'));
+          console.log(s);
+          setCurrentVal(s + '\n' + story[index])
+        }
+        
+      }
+      setIndex(index - 1)
     }
   }
 
@@ -209,10 +233,6 @@ function App() {
       const cf = directory.filter((val) => (fileName === val.name))
       setDirectory(mkdir);
       const newStage = [...stage, cf[0]];
-      const added = newStage.map((file) => {
-        file.status = 'staged';
-          return file;
-      })
       setStage(newStage);
     }
   }
