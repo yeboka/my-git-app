@@ -21,7 +21,7 @@
 .modal-content {
     padding: 20px;
     border-radius: 10px;
-    background-color:rgba(0, 0, 0, .3);
+    background-color:gray;
     width: 35vw;
     transition: 0.5s all;
     transform: scale(0.5);

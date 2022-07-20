@@ -14,10 +14,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-}
-
-.zone-name {
-    margin-top: 10px;
+    border-left: #f7fc00 dashed 4px;
+    border-right: #f7fc00 dashed 4px;
 }
 
 .repo {
@@ -36,18 +34,20 @@
     width: 1000px;
     height: 270px;
     position: fixed;
-    bottom: 5px;
-    
-    
     background-color:#1e1e1e;
     border-radius: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    align-self: end;
+}
+
+.comand-line:hover {
+    cursor: pointer;
 }
 
 .task {
-    width: 900px;
+    
     margin-top: 25px;
     color: #e1e1e1;
 }
@@ -83,10 +83,18 @@ textarea:focus{
 
 }
 
-.icon {
-    position: fixed;
-    width: 30px;
-    height: 30px;
-    right: 60px;
-    bottom: 60px;
+.task-info{
+    width: 900px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
 }
+
+.zone-name {
+    border: 2px dashed #1e1e1e;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 234, 46);
+}
+

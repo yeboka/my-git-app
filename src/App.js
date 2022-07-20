@@ -3,9 +3,11 @@ import './App.css';
 import { v4 as uuid4} from 'uuid';
 import { motion } from "framer-motion"
 import { useState } from 'react';
+import {gitAdd, gitCommit, gitPull, gitPush, mkdir} from './commands'
+import Draggable from 'react-draggable';
 
 
-import {Landing} from './components/landing/Landing';
+// import {Landing} from './components/landing/Landing';
 import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
 import { InfoButton } from './components/infoButton/InfoButton';
@@ -80,11 +82,13 @@ const directoryBoxes = [
 
 function App() {
 
-  // my git hub token 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
+  // my git hub token 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
 
   const [repo, setRepo] = useState(repoBoxes);
   const [stage, setStage] = useState(stageBoxes);
   const [directory, setDirectory] = useState(directoryBoxes);
+  const [localRepo, setLocalRepo] = useState([]);
+
   const [modalActive, setModalActive] = useState(false);
   const [eMess, setEMess] = useState('');
   const [story, setStory] = useState([]);
@@ -109,12 +113,12 @@ function App() {
       let fileName = command.substring(command.indexOf(' ')).trim();
       switch (command.substring(0, command.indexOf(' '))) {
         case 'add':
-          gitAdd(fileName);
+          gitAdd(fileName, stage, setStage, directory);
           setStory([...story, text]);
           setIndex(story.length);
           break;
         case 'commit': 
-          gitCommit(fileName);
+          gitCommit(fileName, stage, setStage, localRepo, setLocalRepo);
           setStory([...story, text]);
           setIndex(story.length);
           break;
@@ -127,15 +131,15 @@ function App() {
           console.log('succes');
           setStory([...story, text]);
           setIndex(story.length);
-          gitPush();
+          gitPush(directory, repo, setDirectory, setRepo);
           break;
         case 'pull':
-          gitPull();
+          gitPull(repo, directory, setDirectory);
           setStory([...story, text]);
           setIndex(story.length);
           break;  
         case 'mkdir':
-          mkdir(fileName);
+          mkdir(fileName, directory, setDirectory);
           setStory([...story, text]);
           setIndex(story.length);
           break;
@@ -163,79 +167,7 @@ function App() {
     }
   }
 
-  const mkdir = (fileName) => {
-    console.log(fileName);
-    setDirectory([...directory, {key: uuid4(), name: fileName, status: 'untracked'}])
-  }
-
-  const gitPull = () => {
-    let toDirectory = repo.map((file) => ({...file, key: uuid4()}))
-
-    let toPull = [];
-    for (let i = 0; i < toDirectory.length; i++) {
-      const element = toDirectory[i];
-      let count = 0;
-      for (let j = 0; j < directory.length; j++) {
-        const e = directory[j];
-        if(e.name === element.name) count++;
-        
-      }
-      console.log(count);
-      if(count <= 1) {toPull.push(element)}
-    }
-    console.log(toPull);
-    setDirectory(toPull);
-  }
- 
-  const gitPush = () => {
-    let toPush = directory.filter((file) => file.status.includes('_toBeCommited'));
-    console.log(toPush);
-    toPush = [...repo, ...toPush];
-    const newDirectory = directory.map((file) => ({...file, status: 'unmodified', key: uuid4()}))
-    const pushed = toPush.map((file) => {
-      file.status = 'unmodified';
-      file.key = uuid4();
-      return file;
-    })
-    setRepo(pushed);
-    setDirectory(newDirectory);
-    console.log(pushed, directory);
-  }
-
-  const gitCommit = (mes) => {
-      if (mes[0] === '"' && mes[mes.length - 1] === '"'){
-        mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
-      
-        const commit = stage.map((file) => {
-          file.commitMess = mes;
-          file.status = 'unmodified_toBeCommited';
-          return file;
-        })
-        const newCommit = [...directory, ...commit];
-        console.log(newCommit);
-        setDirectory(newCommit);
-        setStage([]);
-      } else {
-        console.log('you forget ticks');
-      }
-
-
-    
-  }
-
-  const gitAdd = (fileName) => {
-    if (fileName === '*') {
-      setDirectory([])
-      const newStage = [...stage, ...directory]
-      setStage(newStage);
-    } else {
-      const mkdir = directory.filter((val) => (fileName !== val.name))
-      const cf = directory.filter((val) => (fileName === val.name))
-      setDirectory(mkdir);
-      const newStage = [...stage, cf[0]];
-      setStage(newStage);
-    }
-  }
+  
 
   const parseInput = (input) => {
     if(input.startsWith('git add')){
@@ -261,17 +193,20 @@ function App() {
     
 
     <div className='container'>
-
-      <motion.div className='comand-line'
-      whileHover={{ translateX: 50}}>
-        {/* <input type="text" /> */}
-        <div className='task'>
-          task
+      <Draggable>
+      <div className='comand-line'>
+        <div className='task-info'>
+          <div className='task'>
+            task
+          </div>
+          <InfoButton className="icon" onClick={() => setInfoActive(!infoActive)}/>
         </div>
         <textarea value={currentVal} onChange={(event) => {
           setCurrentVal(event.target.value)
         }} cols="50" rows="2" onKeyDown={(event) => {handleComand(event)}}></textarea>
-      </motion.div>
+      </div>
+      </Draggable>
+      
       <div className='zone repo'>
         <div className='zone-name'>  
           git repo
@@ -326,6 +261,23 @@ function App() {
             ))
           }
         </div>
+        <div className='zone-name'>  
+          Local repository
+        </div>
+        <div className='box-container'>
+          {
+            localRepo
+            .map((box) => (
+              <motion.div className='mapedBox' key={box.key}
+              whileHover={{ scale: 1.3 }} 
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}>
+                <BoxImg name = {box.name} status = {box.status} />
+              </motion.div>
+            ))
+          }
+        </div>
       </div>
     </div>
     <Modal active = {modalActive} setActive = {setModalActive}>
@@ -337,8 +289,6 @@ function App() {
       ))}
       </div>
     </Modal>
-    
-      <InfoButton className="icon" onClick={() => setInfoActive(!infoActive)}/>
     
     <Modal active={infoActive} setActive = {setInfoActive}>
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type an
