@@ -44,12 +44,11 @@ const mkdir = (fileName, directory, setDirectory) => {
         mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
       
         const commit = stage.map((file) => {
-          file.commitMess = mes;
           file.status = 'unmodified';
           return file;
         })
-        const newCommit = [...localRepo, {commitFiles: commit, message: mes, date: new Date}];
-        setLocalRepo([...newCommit.map((commit) => ({...commit, key: uuid4()}))]);
+        const newCommit = [...localRepo, {commitFiles: commit, message: mes, date: new Date, key: uuid4()}];
+        setLocalRepo([...newCommit]);
         setStage([]);
       } else {
         console.log('you forget ticks');

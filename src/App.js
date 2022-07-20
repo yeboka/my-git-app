@@ -11,6 +11,7 @@ import Draggable from 'react-draggable';
 import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
 import { InfoButton } from './components/infoButton/InfoButton';
+import { CommitImg } from './components/commit/CommitImg';
 
 const repoBoxes = [
   {
@@ -267,13 +268,13 @@ function App() {
         <div className='box-container'>
           {
             localRepo
-            .map((box) => (
-              <motion.div className='mapedBox' key={box.key}
+            .map((commit) => (
+              <motion.div className='mapedBox' key={commit.key}
               whileHover={{ scale: 1.3 }} 
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}>
-                <BoxImg name = {box.name} status = {box.status} />
+                <CommitImg commit = {commit} />
               </motion.div>
             ))
           }
