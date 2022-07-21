@@ -16,33 +16,21 @@ const repoBoxes = [
   {
     key: uuid4(),
     name: 'box1',
-    status: 'tracked',
-    commitMess: 'first box'
+    status: 'unmodified',
+    lastCommitMess: 'first commit'
   },
   {
     key: uuid4(),
     name: 'box2',
-    status: 'tracked',
-    commitMess: 'first box'
+    status: 'unmodified',
+    lastCommitMess: 'first commit'
   },
   {
     key: uuid4(),
     name: 'box3',
-    status: 'tracked',
-    commitMess: 'first box'
-  },
-  {
-    key: uuid4(),
-    name: 'box4',
-    status: 'tracked',
-    commitMess: 'first box'
-  },
-  {
-    key: uuid4(),
-    name: 'box5',
-    status: 'tracked',
-    commitMess: 'first box'
-  }, 
+    status: 'unmodified',
+    lastCommitMess: 'first commit'
+  }
 ]
 const stageBoxes = [
   {
@@ -61,25 +49,25 @@ const directoryBoxes = [
     key: uuid4(),
     name: 'box14',
     status: 'untracked',
-    commitMess: 'first box'
+    lastCommitMess: 'first commit'
   }, 
   {
     key: uuid4(),
     name: 'box15',
-    status: 'untracked',
-    commitMess: 'first box'
+    status: 'modified',
+    lastCommitMess: 'first commit'
   }, 
   {
     key: uuid4(),
     name: 'box16',
     status: 'untracked',
-    commitMess: 'first box'
+    lastCommitMess: 'first commit'
   }, 
 ]
 
 function App() {
 
-  // my git hub token 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
+  // my git hub token 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
 
   const [repo, setRepo] = useState(repoBoxes);
   const [stage, setStage] = useState(stageBoxes);
@@ -115,7 +103,7 @@ function App() {
           setIndex(story.length);
           break;
         case 'commit':
-          gitCommit(fileName, stage, setStage, log, setLog);
+          gitCommit(fileName, stage, setStage, log, setLog, localRepo);
           setStory([...story, text]);
           setIndex(story.length);
 

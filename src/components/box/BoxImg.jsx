@@ -2,7 +2,8 @@ import React from 'react'
 import fileImg from '../../assets/file.png';
 import redFileImg from "../../assets/red.png";
 import greenFileImg from "../../assets/green.png";
-import yellowFileimg from "../../assets/yellow.png";
+import yellowFileImg from "../../assets/yellow.png";
+// import {ReactComponent as Green} from "../../assets/greenSvg.svg";
 import { useState } from 'react';
 import './style.css'
 
@@ -14,14 +15,30 @@ export const BoxImg = ( { name, status }) => {
   <>
   {isHover ? 
     <div className="onHover card d" onMouseOver={() => setHover(!isHover)}>
-      <img src={fileImg} alt="" />
+      {
+        status === 'modified' ?
+            <img src={redFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
+            status=== 'untracked' ?
+                <img src={yellowFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
+                status === 'staged' ?
+                    <img src={greenFileImg} alt="" onMouseOver={() => setHover(!isHover)}/>  :
+                    <img src={fileImg} alt="" onMouseOver={() => setHover(!isHover)}/>
+      }
         {name}
         <div className="status">
           {status}
         </div>
     </div> : 
     <div className='card d'>
-      <img src={fileImg} alt="" onMouseOver={() => setHover(!isHover)}/>
+      {
+        status === 'modified' ?
+            <img src={redFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
+            status=== 'untracked' ?
+                <img src={yellowFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
+                status === 'staged' ?
+                    <img src={greenFileImg} alt="" onMouseOver={() => setHover(!isHover)}/>  :
+                    <img src={fileImg} alt="" onMouseOver={() => setHover(!isHover)}/>
+      }
         {name}
     </div>}
   </>

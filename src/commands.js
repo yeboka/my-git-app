@@ -39,7 +39,7 @@ const mkdir = (fileName, directory, setDirectory) => {
     console.log(pushed, directory);
   }
 
-  const gitCommit = (mes, stage, setStage, log, setLog) => {
+  const gitCommit = (mes, stage, setStage, log, setLog, localRepo) => {
       if (mes[0] === '"' && mes[mes.length - 1] === '"'){
         mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
 
@@ -51,6 +51,12 @@ const mkdir = (fileName, directory, setDirectory) => {
           files: [...stage]
         }
 
+        for (let i = 0; i < stage.length; i++) {
+          for (let j = 0; j < localRepo.length; j++) {
+            if (stage[i].name === localRepo[j].name)
+              localRepo[j].status = 'unmodified'
+          }
+        }
         setLog([...log, commit])
         setStage([]);
       } else {
@@ -60,12 +66,12 @@ const mkdir = (fileName, directory, setDirectory) => {
 
   const gitAdd = (fileName, stage, setStage, directory, setDirectory) => {
     if (fileName === '.') {
-      const newStage = [...stage, ...directory.map((file) => ({...file, key: uuid4()}))]
+      const newStage = [...stage, ...directory.map((file) => ({...file, status: 'staged', key: uuid4()}))]
       setStage(newStage);
     } else {
       const cf = directory.filter((val) => (fileName === val.name))
       const newStage = [...stage, cf[0]];
-      setStage([...newStage.map((file) => ({...file, key: uuid4()}))]);
+      setStage([...newStage.map((file) => ({...file,status: 'staged', key: uuid4()}))]);
     }
   }
 
