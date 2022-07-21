@@ -54,16 +54,17 @@
 
 textarea {
     width: 900px;
-    height: 60px;
+    height: 100px;
     background-color: #121212;
     margin-top: 10px;
     color: #e1e1e1;
-    border-color: #1e1e1e;
+    border: none;
+    resize: none;
 }
 
 textarea:focus{
-    border-color: #1e1e1e;
     stroke: #121212;
+    outline: none;
 }
 
 .box-container {
@@ -92,9 +93,11 @@ textarea:focus{
 
 .zone-name {
     border: 2px dashed #1e1e1e;
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: center;
     background-color: rgb(255, 234, 46);
+    box-shadow: 10px 7px 10px rgba(0,0,0,0.3);
+    margin-top: 10px;
 }
 

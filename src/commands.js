@@ -39,16 +39,19 @@ const mkdir = (fileName, directory, setDirectory) => {
     console.log(pushed, directory);
   }
 
-  const gitCommit = (mes, stage, setStage, localRepo, setLocalRepo) => {
+  const gitCommit = (mes, stage, setStage, log, setLog) => {
       if (mes[0] === '"' && mes[mes.length - 1] === '"'){
         mes = mes.substring(mes.indexOf('"')+ 1, mes.lastIndexOf('"'));
-      
-        const commit = stage.map((file) => {
-          file.status = 'unmodified';
-          return file;
-        })
-        const newCommit = [...localRepo, {commitFiles: commit, message: mes, date: new Date, key: uuid4()}];
-        setLocalRepo([...newCommit]);
+
+        const commit = {
+          key: uuid4(),
+          author: 'you :0',
+          date: new Date(),
+          commitMess: mes,
+          files: [...stage]
+        }
+
+        setLog([...log, commit])
         setStage([]);
       } else {
         console.log('you forget ticks');

@@ -11,7 +11,6 @@ import Draggable from 'react-draggable';
 import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
 import { InfoButton } from './components/infoButton/InfoButton';
-import { CommitImg } from './components/commit/CommitImg';
 
 const repoBoxes = [
   {
@@ -49,17 +48,14 @@ const stageBoxes = [
   {
     key: uuid4(),
     name: 'box55',
-    status: 'staged',
-    commitMess: 'first box'
+    status: 'staged'
   },
   {
     key: uuid4(),
     name: 'box45',
     status: 'staged',
-    commitMess: 'first box'
   },
 ]
-
 const directoryBoxes = [
   {
     key: uuid4(),
@@ -83,12 +79,12 @@ const directoryBoxes = [
 
 function App() {
 
-  // my git hub token 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
+  // my git hub token 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
 
   const [repo, setRepo] = useState(repoBoxes);
   const [stage, setStage] = useState(stageBoxes);
-  const [directory, setDirectory] = useState(directoryBoxes);
-  const [localRepo, setLocalRepo] = useState([]);
+  const [localRepo, setLocalRepo] = useState(directoryBoxes);
+  const [log, setLog] = useState([]);
 
   const [modalActive, setModalActive] = useState(false);
   const [eMess, setEMess] = useState('');
@@ -98,7 +94,7 @@ function App() {
   const [index, setIndex] = useState(story.length - 1);
   
 
-  const allFiles = [...repo, ...stage, ...directory]
+  const allFiles = [...repo, ...stage, ...localRepo]
 
 
   const handleComand = (event) => {
@@ -114,14 +110,15 @@ function App() {
       let fileName = command.substring(command.indexOf(' ')).trim();
       switch (command.substring(0, command.indexOf(' '))) {
         case 'add':
-          gitAdd(fileName, stage, setStage, directory);
+          gitAdd(fileName, stage, setStage, localRepo);
           setStory([...story, text]);
           setIndex(story.length);
           break;
         case 'commit': 
-          gitCommit(fileName, stage, setStage, localRepo, setLocalRepo);
+          gitCommit(fileName, stage, setStage, log, setLog);
           setStory([...story, text]);
           setIndex(story.length);
+          console.log("log", log)
           break;
         case 'status':
           setModalActive(true);
@@ -132,15 +129,15 @@ function App() {
           console.log('succes');
           setStory([...story, text]);
           setIndex(story.length);
-          gitPush(directory, repo, setDirectory, setRepo);
+          gitPush(localRepo, repo, setLocalRepo, setRepo);
           break;
         case 'pull':
-          gitPull(repo, directory, setDirectory);
+          gitPull(repo, localRepo, setLocalRepo);
           setStory([...story, text]);
           setIndex(story.length);
           break;  
         case 'mkdir':
-          mkdir(fileName, directory, setDirectory);
+          mkdir(fileName, localRepo, setLocalRepo);
           setStory([...story, text]);
           setIndex(story.length);
           break;
@@ -162,6 +159,7 @@ function App() {
           console.log(s);
           setCurrentVal(s + '\n' + story[index])
         }
+        
         
       }
       setIndex(index - 1)
@@ -245,23 +243,8 @@ function App() {
           }
         </div>
       </div>
+
       <div className='zone directory'>
-        <div className='zone-name'>  
-          Working directory
-        </div>
-        <div className='box-container'>
-          {
-            directory.map((box) => (
-              <motion.div className='mapedBox' key={box.key}
-              whileHover={{ scale: 1.3 }} 
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}>
-                <BoxImg name = {box.name} status = {box.status} />
-              </motion.div>
-            ))
-          }
-        </div>
         <div className='zone-name'>  
           Local repository
         </div>
@@ -274,7 +257,7 @@ function App() {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}>
-                <CommitImg commit = {commit} />
+                <BoxImg name = {commit.name} status = {commit.status} />
               </motion.div>
             ))
           }
