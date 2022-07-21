@@ -1,8 +1,9 @@
 import React from 'react'
-import boxImg from '../../assets/box.png';
 import fileImg from '../../assets/file.png';
+import redFileImg from "../../assets/red.png";
+import greenFileImg from "../../assets/green.png";
+import yellowFileimg from "../../assets/yellow.png";
 import { useState } from 'react';
-
 import './style.css'
 
 export const BoxImg = ( { name, status }) => {

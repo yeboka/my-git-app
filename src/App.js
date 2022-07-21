@@ -114,11 +114,11 @@ function App() {
           setStory([...story, text]);
           setIndex(story.length);
           break;
-        case 'commit': 
+        case 'commit':
           gitCommit(fileName, stage, setStage, log, setLog);
           setStory([...story, text]);
           setIndex(story.length);
-          console.log("log", log)
+
           break;
         case 'status':
           setModalActive(true);
