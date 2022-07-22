@@ -68,7 +68,7 @@ const directoryBoxes = [
 
 function App() {
 
-  // my git hub token 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
+  // my git hub token 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
 
   const [repo, setRepo] = useState(repoBoxes);
   const [stage, setStage] = useState(stageBoxes);
