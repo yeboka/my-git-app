@@ -47,7 +47,7 @@ const mkdir = (fileName, directory, setDirectory) => {
           key: uuid4(),
           author: 'you :0',
           date: new Date(),
-          commitMess: mes,
+          message: mes,
           files: [...stage]
         }
 

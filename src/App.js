@@ -11,6 +11,7 @@ import Draggable from 'react-draggable';
 import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
 import { InfoButton } from './components/infoButton/InfoButton';
+import { LogPopUp } from "./components/logPopUp/LogPopUp";
 
 const repoBoxes = [
   {
@@ -74,7 +75,8 @@ function App() {
   const [localRepo, setLocalRepo] = useState(directoryBoxes);
   const [log, setLog] = useState([]);
 
-  const [modalActive, setModalActive] = useState(false);
+  const [modalStatus, setModalStatus] = useState(false);
+  const [modalLog, setModalLog] = useState(false);
   const [eMess, setEMess] = useState('');
   const [story, setStory] = useState([]);
   const [currentVal, setCurrentVal] = useState('');
@@ -87,14 +89,15 @@ function App() {
 
   const handleComand = (event) => {
     if (event.key === "Enter") {
-      
       const text = event.target.value.substring(event.target.value.lastIndexOf('\n') + 1);
       if(text === '') console.log('just enter');
       else {
       
       let command = parseInput(text) + " ";
       if(parseInput(text)){
-      console.log(command);
+        event.preventDefault();
+
+        console.log(command);
       let fileName = command.substring(command.indexOf(' ')).trim();
       switch (command.substring(0, command.indexOf(' '))) {
         case 'add':
@@ -106,10 +109,14 @@ function App() {
           gitCommit(fileName, stage, setStage, log, setLog, localRepo);
           setStory([...story, text]);
           setIndex(story.length);
-
           break;
         case 'status':
-          setModalActive(true);
+          setModalStatus(true);
+          setStory([...story, text]);
+          setIndex(story.length);
+          break;
+        case 'log':
+          setModalLog(true);
           setStory([...story, text]);
           setIndex(story.length);
           break;
@@ -131,9 +138,11 @@ function App() {
           break;
         default:
           break;
-      }} else {
-        console.log(event.target.value + 'it is not git command');
-        setEMess(' it is not git command');
+      }
+        setCurrentVal(currentVal + '\n')
+      } else {
+        console.log(event.target.value + 'invalid command');
+        setEMess(' invalid command');
         setCurrentVal(currentVal + eMess);
       }}
     } else if (event.key=== "ArrowUp") {
@@ -147,8 +156,6 @@ function App() {
           console.log(s);
           setCurrentVal(s + '\n' + story[index])
         }
-        
-        
       }
       setIndex(index - 1)
     }
@@ -161,6 +168,8 @@ function App() {
       return 'add' + input.substring(7)
     } else if(input.startsWith('git status')){
       return 'status'
+    } else if(input.startsWith('git log')){
+      return 'log'
     } else if(input.startsWith('git commit -m')){
       return 'commit' + input.substring(13)
     } else if(input.startsWith('git push origin')){
@@ -177,8 +186,6 @@ function App() {
 
   return ( 
     <div className='n'>
-    
-
     <div className='container'>
       <Draggable>
       <div className='comand-line'>
@@ -252,7 +259,7 @@ function App() {
         </div>
       </div>
     </div>
-    <Modal active = {modalActive} setActive = {setModalActive}>
+    <Modal active = {modalStatus} setActive = {setModalStatus}>
       <div>
       {allFiles.map((file) => (
         <div key = {file.key}>
@@ -261,12 +268,14 @@ function App() {
       ))}
       </div>
     </Modal>
+    <LogPopUp active={modalLog} setActive={setModalLog} log={log}>
+
+    </LogPopUp>
     
     <Modal active={infoActive} setActive = {setInfoActive}>
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type an
     </Modal>
     </div>
-    
   );
 }
 
