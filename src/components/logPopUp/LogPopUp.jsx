@@ -1,5 +1,4 @@
 import React from 'react';
-
 import commitIcon from '../../assets/icons8-commit-git-70.png'
 import './style.css';
 
