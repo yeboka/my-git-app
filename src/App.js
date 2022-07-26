@@ -209,10 +209,10 @@ function App() {
           {
             repo.map((box) => (
               <motion.div className='mapedBox' key={box.key}
-              whileHover={{ scale: 1.3 }}
+              whileHover={{ scale: 1.2 }}
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5 }} whileTap={{ scale: 1 }}
               >
                 <BoxImg name = {box.name} status = {box.status} />
               </motion.div>
@@ -228,10 +228,10 @@ function App() {
           {
             stage.map((box) => (
               <motion.div className='mapedBox' key={box.key}
-              whileHover={{ scale: 1.3 }} 
+              whileHover={{ scale: 1.2 }}
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}>
+              transition={{ duration: 0.5 }} whileTap={{ scale: 1 }}>
                 <BoxImg name = {box.name} status = {box.status} />
               </motion.div>
             ))
@@ -247,10 +247,10 @@ function App() {
             localRepo
             .map((commit) => {
              return  <motion.div className='mapedBox' key={commit.key}
-                          whileHover={{scale: 1.3}}
+                          whileHover={{scale: 1.2}}
                           initial={{opacity: 0, scale: 0.5}}
                           animate={{opacity: 1, scale: 1}}
-                          transition={{duration: 0.5}}>
+                          transition={{duration: 0.5}} whileTap={{ scale: 1 }}>
                 <BoxImg name={commit.name} status={commit.status}/>
               </motion.div>
             })

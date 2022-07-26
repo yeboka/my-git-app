@@ -23,7 +23,7 @@
     padding: 20px;
     margin: 5px;
     border-radius: 10px;
-    background-color:gray;
+    background-color:#d0ebdd;
     width: 40vw;
     transition: 0.5s all;
     transform: scale(0.5);
@@ -52,6 +52,10 @@
     margin: 3px 20px;
 }
 
+.status p {
+    color: #1E2022;
+}
+
 .info {
     margin: 0;
     display: flex;
@@ -63,7 +67,9 @@
     color: #54C60F;
 }
 
-
+.commits {
+    text-align: center;
+}
 
 span {
     color:crimson;

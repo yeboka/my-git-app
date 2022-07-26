@@ -13,22 +13,7 @@ export const BoxImg = ( { name, status }) => {
 
   return (
   <>
-  {isHover ? 
-    <div className="onHover card d" onMouseOver={() => setHover(!isHover)}>
-      {
-        status === 'modified' ?
-            <img src={redFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
-            status=== 'untracked' ?
-                <img src={yellowFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
-                status === 'staged' ?
-                    <img src={greenFileImg} alt="" onMouseOver={() => setHover(!isHover)}/>  :
-                    <img src={fileImg} alt="" onMouseOver={() => setHover(!isHover)}/>
-      }
-        {name}
-        <div className="status">
-          {status}
-        </div>
-    </div> : 
+
     <div className='card d'>
       {
         status === 'modified' ?
@@ -40,7 +25,7 @@ export const BoxImg = ( { name, status }) => {
                     <img src={fileImg} alt="" onMouseOver={() => setHover(!isHover)}/>
       }
         {name}
-    </div>}
+    </div>
   </>
     
   )
