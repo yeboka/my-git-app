@@ -259,7 +259,7 @@ function App() {
       </div>
     </div>
 
-    <StatusPopUp active={modalStatus} setActive={setModalStatus} stage={stage} localRepo={localRepo}/>
+    <StatusPopUp active={modalStatus} setActive={setModalStatus} stage={stage} localRepo={localRepo} log={log}/>
 
     <LogPopUp active={modalLog} setActive={setModalLog} log={log}/>
 

@@ -55,7 +55,8 @@ const mkdir = (fileName, directory, setDirectory) => {
           author: 'you :0',
           date: new Date(),
           message: mes,
-          files: [...stage]
+          files: [...stage],
+          isPushed: false
         }
 
         for (let i = 0; i < stage.length; i++) {
@@ -74,20 +75,29 @@ const mkdir = (fileName, directory, setDirectory) => {
   }
 
   const gitAdd = (fileName, stage, setStage, directory, setDirectory) => {
+    let newStage = [];
     if (fileName === '.') {
-      const newStage = [...stage, ...directory.map((file) => ({...file, secondStatus: file.status, status: 'staged', key: uuid4()}))]
+      newStage = [...stage, ...directory.map((file) => ({...file, secondStatus: file.status, status: 'staged', key: uuid4()}))]
       setDirectory([...directory.map((file) => ({...file, staged: true}))])
-      setStage(newStage);
     } else {
       const cf = directory.filter((val) => (fileName === val.name))
-      const newStage = [...stage, cf[0]];
+      newStage = [...stage, cf[0]];
       setDirectory([...directory.map((file) => {
         if (file.name === fileName) return {...file, staged: true}
         return file;
       }
       )])
-      setStage([...newStage.map((file) => ({...file, secondStatus: file.status, status: 'staged', key: uuid4()}))]);
+      newStage = ([...newStage.map((file) => ({...file, secondStatus: file.status, status: 'staged', key: uuid4()}))]);
     }
+    for (let i = 0; i < newStage.length; i++) {
+      let count  =0;
+      for (let j = 0; j < newStage.length; j++) {
+        if (newStage[i].name === newStage[j].name) count++;
+      }
+      if (count === 2) newStage.splice(i, 1);
+    }
+
+    setStage(newStage);
   }
 
 export {gitAdd, gitCommit, gitPull, gitPush, mkdir}

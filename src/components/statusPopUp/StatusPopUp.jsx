@@ -1,14 +1,21 @@
 import React from 'react';
 import './style.css';
 
-export const StatusPopUp = ({active, setActive, stage, localRepo}) => {
+export const StatusPopUp = ({active, setActive, stage, localRepo, log}) => {
 
 
     const notStaged = localRepo.filter((file) => !file.staged)
-
+    const commitsToPush = log.filter((file) => !file.isPushed)
     return (
         <div className = {active ? 'status-modal active' : 'status-modal'} onClick={() => {setActive(false)}}>
-            <div className={active ? 'status-modal-content active' : 'status-modal-content'} onClick={(e) => e.stopPropagation()}>
+            {commitsToPush.length > 0 && <div className={active ? 'status-modal-content active' : 'status-modal-content'}
+                                              onClick={(e) => e.stopPropagation()}>
+                <div className={'commits'}>
+                    <p>Your branch is ahead of 'origin/main' by {commitsToPush.length} commits.</p>
+                    <p>    (use "git push" to publish your local commits)</p>
+                </div>
+            </div>}
+            {stage.length > 0 && <div className={active ? 'status-modal-content active' : 'status-modal-content'} onClick={(e) => e.stopPropagation()}>
                 <div className={'to-be-commit'} >
                     <h2>Changes to be commited</h2>
                     <div className={'info'}>
@@ -26,8 +33,8 @@ export const StatusPopUp = ({active, setActive, stage, localRepo}) => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className={active ? 'status-modal-content active' : 'status-modal-content'} onClick={(e) => e.stopPropagation()}>
+            </div>}
+            {notStaged.length > 0 && <div className={active ? 'status-modal-content active' : 'status-modal-content'} onClick={(e) => e.stopPropagation()}>
                 <div className={'to-be-commit'} >
                     <h2>Changes not staged for commit</h2>
                     <div className={'info'}>
@@ -45,7 +52,7 @@ export const StatusPopUp = ({active, setActive, stage, localRepo}) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 };
