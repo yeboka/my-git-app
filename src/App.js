@@ -12,6 +12,7 @@ import { Modal } from './components/modal/Modal';
 import { BoxImg } from './components/box/BoxImg';
 import { InfoButton } from './components/infoButton/InfoButton';
 import { LogPopUp } from "./components/logPopUp/LogPopUp";
+import {StatusPopUp} from "./components/statusPopUp/StatusPopUp";
 
 const repoBoxes = [
   {
@@ -37,12 +38,14 @@ const stageBoxes = [
   {
     key: uuid4(),
     name: 'box55',
-    status: 'staged'
+    status: 'staged',
+    secondStatus: 'modified'
   },
   {
     key: uuid4(),
     name: 'box45',
     status: 'staged',
+    secondStatus: 'modified'
   },
 ]
 const directoryBoxes = [
@@ -50,19 +53,22 @@ const directoryBoxes = [
     key: uuid4(),
     name: 'box14',
     status: 'untracked',
-    lastCommitMess: 'first commit'
+    lastCommitMess: 'first commit',
+    staged: false
   }, 
   {
     key: uuid4(),
     name: 'box15',
     status: 'modified',
-    lastCommitMess: 'first commit'
+    lastCommitMess: 'first commit',
+    staged: false
   }, 
   {
     key: uuid4(),
     name: 'box16',
     status: 'untracked',
-    lastCommitMess: 'first commit'
+    lastCommitMess: 'first commit',
+    staged: false
   }, 
 ]
 
@@ -70,8 +76,9 @@ function App() {
 
   // my git hub token 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
 
+
   const [repo, setRepo] = useState(repoBoxes);
-  const [stage, setStage] = useState(stageBoxes);
+  const [stage, setStage] = useState([]);
   const [localRepo, setLocalRepo] = useState(directoryBoxes);
   const [log, setLog] = useState([]);
 
@@ -82,10 +89,6 @@ function App() {
   const [currentVal, setCurrentVal] = useState('');
   const [infoActive, setInfoActive] = useState(false);
   const [index, setIndex] = useState(story.length - 1);
-  
-
-  const allFiles = [...repo, ...stage, ...localRepo]
-
 
   const handleComand = (event) => {
     if (event.key === "Enter") {
@@ -101,12 +104,12 @@ function App() {
       let fileName = command.substring(command.indexOf(' ')).trim();
       switch (command.substring(0, command.indexOf(' '))) {
         case 'add':
-          gitAdd(fileName, stage, setStage, localRepo);
+          gitAdd(fileName, stage, setStage, localRepo,setLocalRepo);
           setStory([...story, text]);
           setIndex(story.length);
           break;
         case 'commit':
-          gitCommit(fileName, stage, setStage, log, setLog, localRepo);
+          gitCommit(fileName, stage, setStage, log, setLog, localRepo,setLocalRepo);
           setStory([...story, text]);
           setIndex(story.length);
           break;
@@ -121,10 +124,9 @@ function App() {
           setIndex(story.length);
           break;
         case 'push':
-          console.log('succes');
           setStory([...story, text]);
           setIndex(story.length);
-          gitPush(localRepo, repo, setLocalRepo, setRepo);
+          gitPush(localRepo, repo, setLocalRepo, setRepo, log, setLog);
           break;
         case 'pull':
           gitPull(repo, localRepo, setLocalRepo);
@@ -147,13 +149,11 @@ function App() {
       }}
     } else if (event.key=== "ArrowUp") {
       event.preventDefault();
-      console.log(story, story.length,index); 
       if (index >= 0){
         if (index === story.length - 1) {
           setCurrentVal( currentVal + story[index] )
         }else {
           let s = currentVal.substring(0, currentVal.lastIndexOf('\n'));
-          console.log(s);
           setCurrentVal(s + '\n' + story[index])
         }
       }
@@ -172,7 +172,7 @@ function App() {
       return 'log'
     } else if(input.startsWith('git commit -m')){
       return 'commit' + input.substring(13)
-    } else if(input.startsWith('git push origin')){
+    } else if(input.startsWith('git push')){
       return 'push'
     } else if(input.startsWith('git pull origin')){
       return 'pull'
@@ -238,7 +238,6 @@ function App() {
           }
         </div>
       </div>
-
       <div className='zone directory'>
         <div className='zone-name'>  
           Local repository
@@ -246,32 +245,24 @@ function App() {
         <div className='box-container'>
           {
             localRepo
-            .map((commit) => (
-              <motion.div className='mapedBox' key={commit.key}
-              whileHover={{ scale: 1.3 }} 
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}>
-                <BoxImg name = {commit.name} status = {commit.status} />
+            .map((commit) => {
+             return  <motion.div className='mapedBox' key={commit.key}
+                          whileHover={{scale: 1.3}}
+                          initial={{opacity: 0, scale: 0.5}}
+                          animate={{opacity: 1, scale: 1}}
+                          transition={{duration: 0.5}}>
+                <BoxImg name={commit.name} status={commit.status}/>
               </motion.div>
-            ))
+            })
           }
         </div>
       </div>
     </div>
-    <Modal active = {modalStatus} setActive = {setModalStatus}>
-      <div>
-      {allFiles.map((file) => (
-        <div key = {file.key}>
-          File name: <span>{file.name}</span> ; status: <span>{file.status + ','}</span>
-        </div> 
-      ))}
-      </div>
-    </Modal>
-    <LogPopUp active={modalLog} setActive={setModalLog} log={log}>
 
-    </LogPopUp>
-    
+    <StatusPopUp active={modalStatus} setActive={setModalStatus} stage={stage} localRepo={localRepo}/>
+
+    <LogPopUp active={modalLog} setActive={setModalLog} log={log}/>
+
     <Modal active={infoActive} setActive = {setInfoActive}>
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type an
     </Modal>
