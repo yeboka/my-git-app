@@ -1,11 +1,8 @@
 import React from 'react'
 import './style.css'
-
-import logo from '../../assets/github-1-5645865-4695723.png';
-import boxes from '../../assets/boxes.png';
-import {ThemeProvider,createTheme} from '@mui/material/styles';
 import {Cat} from "../cat/Cat";
 import Button from "@mui/material/Button";
+import {Link} from "react-router-dom";
 
 
 
@@ -19,7 +16,9 @@ return (
                <h1>Git for Kid</h1>
                <h3>Start learning the basics of GIT right now!</h3>
                <div className="bttns">
-                  <Button className="start-bttn" variant={'contained'} color={'success'}>START>></Button>
+                  <Link to={'/game'} className={'link'}>
+                     <Button className="start-bttn" variant={'contained'} color={'success'}>START>></Button>
+                  </Link>
                   <Button className="levels-bttn" variant={'outlined'} color={'warning'}>LEVELS</Button>
                </div>
                <div className="cute-cat">

@@ -110,11 +110,16 @@ footer {
     display: flex;
     flex-direction: column;
     margin-bottom: 50px;
+
 }
 
 .bttns Button {
     margin: 8px;
+    letter-spacing: 0.05em;
+}
 
+.link {
+    text-decoration: none;
 }
 
 .start-bttn {
