@@ -7,11 +7,12 @@ import {StatusPopUp} from "../statusPopUp/StatusPopUp";
 import {LogPopUp} from "../logPopUp/LogPopUp";
 import {Editor} from "../editor/Editor";
 import {Modal} from "../modal/Modal";
-import {useState} from "@types/react";
+import {useState} from "react";
 import {gitAdd, gitCommit, gitPull, gitPush, mkdir} from "../../commands";
 import {v4 as uuid4} from "uuid";
 
 import './style.css';
+import {Cat} from "../cat/Cat";
 
 const repoBoxes = [
 	{

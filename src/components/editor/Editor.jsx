@@ -33,6 +33,7 @@ export const Editor = ({currentFile, active, setActive, setCurrentFile, localRep
 	const handleSaveClick = () => {
 		for (let i = 0; i < localRepo.length; i++) {
 			if (localRepo[i].name === currentFile.name) {
+				if (localRepo[i].text !== currValue) localRepo[i].status = 'modified'
 				localRepo[i].text = currValue
 			}
 		}
@@ -61,7 +62,7 @@ export const Editor = ({currentFile, active, setActive, setCurrentFile, localRep
 					 <textarea rows={30} cols={65} value={currValue} onChange={(e) => setCurrValue(e.target.value)} onKeyDown={(e) => {handleKeyPress(e)}}/>
 				 </div>
 				 <div className="end box">
-					 <div className="left">
+					 <div className="leftt">
 						 <p>Last commit mes: {currentFile.lastCommitMess}</p>
 					 </div>
 					 <Button variant={"contained"} color={"success"} className={'saveBtn'} onClick={() => handleSaveClick()}>Save</Button>
