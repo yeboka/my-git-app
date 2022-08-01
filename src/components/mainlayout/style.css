@@ -122,3 +122,11 @@
     justify-content: space-around;
 }
 
+.console-buttons {
+    display: flex;
+    margin: 3px;
+}
+
+.console-buttons > .icon{
+    margin: 2px;
+}

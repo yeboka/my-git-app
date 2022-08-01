@@ -1,0 +1,17 @@
+.icon > img {
+    width: 30px;
+    height: 30px ;
+    border-radius: 3px;
+}
+
+.info-icon {
+    background-color: #FEBC2E;
+}
+
+.home-icon {
+    background-color: #FE5F57;
+}
+
+.levels-icon {
+    background-color: #27C840;
+}

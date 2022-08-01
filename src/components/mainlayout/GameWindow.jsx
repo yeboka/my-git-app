@@ -1,6 +1,6 @@
 import React from 'react';
 import Draggable from "react-draggable";
-import {InfoButton} from "../infoButton/InfoButton";
+import {InfoButton} from "../buttons/InfoButton";
 import {motion} from "framer-motion";
 import {BoxImg} from "../box/BoxImg";
 import {StatusPopUp} from "../statusPopUp/StatusPopUp";
@@ -13,6 +13,8 @@ import {v4 as uuid4} from "uuid";
 
 import './style.css';
 import {Cat} from "../cat/Cat";
+import {HomeButton} from "../buttons/HomeButton";
+import {LevelsButton} from "../buttons/LevelsButton";
 
 const repoBoxes = [
 	{
@@ -185,7 +187,12 @@ export const GameWindow = () => {
 							 <div className='task'>
 								 task
 							 </div>
-							 <InfoButton className="icon" onClick={() => setInfoActive(!infoActive)}/>
+							 <div className={'console-buttons'}>
+								 <HomeButton classMane="icon"/>
+								 <InfoButton className="icon" onClick={() => setInfoActive(!infoActive)}/>
+								 <LevelsButton classMane="icon"/>
+							 </div>
+
 						 </div>
 						 <textarea value={currentVal} onChange={(event) => {
 							 setCurrentVal(event.target.value)

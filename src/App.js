@@ -6,7 +6,7 @@ import {Cat} from "./components/cat/Cat";
 
 function App() {
 
-	// my git hub token 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
+	// my git hub token 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
 	return (
 		 <Landing/>
 	);
