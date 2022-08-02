@@ -14,18 +14,20 @@ export const BoxImg = ( { name, status }) => {
   return (
   <>
 
-    <div className='card d'>
-      {
-        status === 'modified' ?
-            <img src={redFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
-            status=== 'untracked' ?
-                <img src={yellowFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
-                status === 'staged' ?
-                    <img src={greenFileImg} alt="" onMouseOver={() => setHover(!isHover)}/>  :
-                    <img src={fileImg} alt="" onMouseOver={() => setHover(!isHover)}/>
-      }
-        {name}
-    </div>
+      <div className='card d'>
+        {
+          status === 'modified' ?
+              <img src={redFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
+              status=== 'untracked' ?
+                  <img src={yellowFileImg} alt="" onMouseOver={() => setHover(!isHover)}/> :
+                  status === 'staged' ?
+                      <img src={greenFileImg} alt="" onMouseOver={() => setHover(!isHover)}/>  :
+                      <img src={fileImg} alt="" onMouseOver={() => setHover(!isHover)}/>
+        }
+         {name}
+      </div>
+
+
   </>
     
   )

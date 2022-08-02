@@ -1,0 +1,20 @@
+.my-form {
+    height: 20vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+.lev {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.submit-btn {
+    margin-top: 50px;
+}

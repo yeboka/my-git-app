@@ -12,7 +12,7 @@ export const LogPopUp = ({active, setActive, log}) => {
                         <img src={commitIcon} alt={'-0-'} className='rotate-img90'/>
                     </div>
                     <div className={'title'} >
-                        commit mes:
+                        <p className={'commes'}>commit mes:</p>
                         <h2>{`${commit.message}`}</h2>
                         <p>{commit.date.toString().substring(0, 34)}</p>
                     </div>

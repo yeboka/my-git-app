@@ -1,4 +1,4 @@
-.log-modal {
+.level-modal {
     height: 100vh;
     width: 100vw;
     position: fixed;
@@ -6,7 +6,6 @@
     left: 0;
     background-color: rgba(0, 0, 0, .3);
     display: flex;
-    flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
     opacity: 0;
@@ -14,42 +13,41 @@
     transition: 0.5s;
 }
 
-.log-modal.active {
+.level-modal.active {
     opacity: 1;
     pointer-events: all;
 }
 
-.log-modal-content {
-    margin: 5px;
+.level-modal-content {
     padding: 20px;
     border-radius: 10px;
-    background-color:#d8f2f0;
-    width: 40vw;
+    background-color: #F0F5F9;
+    width: 45vw;
+    height: 45vh;
     transition: 0.5s all;
-    transform: scale(0);
+    transform: scale(0.5);
     display: flex;
     align-items: center;
+    flex-direction: column;
 }
 
-.log-modal-content h2 {
-    color: #1E2022;
-    margin: 0 5px;
-    padding: 0;
+.heading {
     font-size: 30px;
+    font-weight: bold;
+    color: #1E2022;
 }
 
-.log-modal-content p {
-    margin: 3px 5px;
-    color: #54C60F;
-    font-size: 20px;
+.bttn-group {
+    align-self: end;
+    margin: 10px;
 }
 
-.log-modal-content .commes {
-    color: #1e1e1e;
-    font-size: 15px;
+.theory {
+    overflow-y: scroll;
+    height: 36vh;
 }
 
-.log-modal-content.active {
+.level-modal-content.active {
     transform: scale(1);
 }
 
@@ -57,6 +55,11 @@ span {
     color:crimson;
 }
 
-.rotate-img90 {
-    transform: rotate(90deg);
+.cat-cat {
+    width: 300px;
+    height: 300px;
+}
+
+.success-heading {
+    color: #27C840;
 }

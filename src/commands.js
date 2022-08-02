@@ -1,7 +1,7 @@
 import { v4 as uuid4} from 'uuid';
 
 const mkdir = (fileName, directory, setDirectory) => {
-    console.log(fileName);
+    console.log('',fileName);
     setDirectory([...directory, {key: uuid4(), name: fileName, status: 'untracked'}])
   }
 

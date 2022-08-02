@@ -6,7 +6,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 export const Editor = ({currentFile, active, setActive, setCurrentFile, localRepo}) => {
 	const [currValue, setCurrValue] = useState(currentFile.text);
-	const [i, setI] = useState((currentFile.text.length / 65) + 2)
+	const [i, setI] = useState(currentFile.text ? (currentFile.text.length / 65) + 2 : 0)
 	const [lines, setLines] = useState([]);
 
 	useEffect(() => {

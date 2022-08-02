@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import './index.css';
 import App from './App';
-import {GameWindow} from "./components/mainlayout/GameWindow";
+import Level1 from "./components/levels/level1/Level1";
+import {Level2} from "./components/levels/level2/Level2";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -12,7 +13,9 @@ root.render(
        <BrowserRouter>
           <Routes>
             <Route path="/" element={<App/>}/>
-             <Route path="/game" element={<GameWindow/>}/>
+             <Route path="/levels" element={<Level1/>}/>
+             <Route path="/levels/level1" element={<Level1/>}></Route>
+             <Route path="/levels/level2" element={<Level2/>}></Route>
           </Routes>
        </BrowserRouter>
     </React.StrictMode>

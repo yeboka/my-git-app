@@ -1,8 +1,6 @@
 import './App.css';
 
 import {Landing} from './components/landing/Landing';
-import {GameWindow} from "./components/mainlayout/GameWindow";
-import {Cat} from "./components/cat/Cat";
 
 function App() {
 

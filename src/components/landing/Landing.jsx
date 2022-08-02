@@ -16,10 +16,12 @@ return (
                <h1>Git for Kid</h1>
                <h3>Start learning the basics of GIT right now!</h3>
                <div className="bttns">
-                  <Link to={'/game'} className={'link'}>
+                  <Link to={'/levels/level1'} className={'link'}>
                      <Button className="start-bttn" variant={'contained'} color={'success'}>START>></Button>
                   </Link>
-                  <Button className="levels-bttn" variant={'outlined'} color={'warning'}>LEVELS</Button>
+                  <Link to={'/levels'} className={'link'}>
+                     <Button className="levels-bttn" variant={'outlined'} color={'warning'}>LEVELS</Button>
+                  </Link>
                </div>
                <div className="cute-cat">
                   <Cat/>

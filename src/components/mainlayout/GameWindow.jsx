@@ -9,66 +9,16 @@ import {Editor} from "../editor/Editor";
 import {Modal} from "../modal/Modal";
 import {useState} from "react";
 import {gitAdd, gitCommit, gitPull, gitPush, mkdir} from "../../commands";
-import {v4 as uuid4} from "uuid";
 
 import './style.css';
-import {Cat} from "../cat/Cat";
 import {HomeButton} from "../buttons/HomeButton";
 import {LevelsButton} from "../buttons/LevelsButton";
 
-const repoBoxes = [
-	{
-		key: uuid4(),
-		name: 'box1',
-		status: 'unmodified',
-		lastCommitMess: 'first commit'
-
-	},
-	{
-		key: uuid4(),
-		name: 'box2',
-		status: 'unmodified',
-		lastCommitMess: 'first commit'
-	},
-	{
-		key: uuid4(),
-		name: 'box3',
-		status: 'unmodified',
-		lastCommitMess: 'first commit'
-	}
-]
-const directoryBoxes = [
-	{
-		key: uuid4(),
-		name: 'box14',
-		status: 'untracked',
-		lastCommitMess: 'first commit',
-		staged: false,
-		text: 'Lorem Ipsum is simply dummy text of the  sheet'
-	},
-	{
-		key: uuid4(),
-		name: 'box15',
-		status: 'modified',
-		lastCommitMess: 'first commit',
-		staged: false,
-		text: 'Lorem Ipsum is sum has been the , but the release of Later sheet'
-	},
-	{
-		key: uuid4(),
-		name: 'box16',
-		status: 'untracked',
-		lastCommitMess: 'first commit',
-		staged: false,
-		text: 'Lorem Ipsum is simply dummy text of the printing lease of Letraset khvhkgkhhkfhfhjfgffffffffffffffffffffffsheet'
-
-	},
-]
 
 export const GameWindow = () => {
-	const [repo, setRepo] = useState(repoBoxes);
+	const [repo, setRepo] = useState([]);
 	const [stage, setStage] = useState([]);
-	const [localRepo, setLocalRepo] = useState(directoryBoxes);
+	const [localRepo, setLocalRepo] = useState([]);
 	const [log, setLog] = useState([]);
 
 	const [modalStatus, setModalStatus] = useState(false);
@@ -124,7 +74,7 @@ export const GameWindow = () => {
 							setStory([...story, text]);
 							setIndex(story.length);
 							break;
-						case 'mkdir':
+						case 'touch':
 							mkdir(fileName, localRepo, setLocalRepo);
 							setStory([...story, text]);
 							setIndex(story.length);
@@ -166,8 +116,8 @@ export const GameWindow = () => {
 			return 'push'
 		} else if (input.startsWith('git pull origin')) {
 			return 'pull'
-		} else if (input.startsWith('mkdir')) {
-			return 'mkdir' + input.substring(5)
+		} else if (input.startsWith('touch')) {
+			return 'touch' + input.substring(5)
 		} else {
 			return false;
 		}
