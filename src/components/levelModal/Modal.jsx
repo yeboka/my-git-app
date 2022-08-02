@@ -14,7 +14,24 @@ export const Modal = (props) => {
 					{props.level}
 				</div>
 
-				 <div className="theory">{props.theory}</div>
+				 <div className="theory">
+					 <p>{props.theory}</p>
+					 <ul>
+						 <li>{props.arg1}</li>
+						 <li>{props.arg2}</li>
+						 <li>{props.arg3}</li>
+					 </ul>
+
+					 {
+						 props.arg4 && <p>{props.arg4}</p>
+					 }
+					 {
+						  props.arg5 && <p>{props.arg5}</p>
+					 }
+					 {
+						  props.arg6 && <p>{props.arg6}</p>
+					 }
+				 </div>
 
 				 <div className="btn-group">
 					 <Link to={'/'}>

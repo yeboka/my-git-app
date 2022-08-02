@@ -6,16 +6,17 @@ import {BoxImg} from "../box/BoxImg";
 import {StatusPopUp} from "../statusPopUp/StatusPopUp";
 import {LogPopUp} from "../logPopUp/LogPopUp";
 import {Editor} from "../editor/Editor";
-import {Modal} from "../modal/Modal";
 import {useState} from "react";
 import {gitAdd, gitCommit, gitPull, gitPush, mkdir} from "../../commands";
 
 import './style.css';
 import {HomeButton} from "../buttons/HomeButton";
 import {LevelsButton} from "../buttons/LevelsButton";
+import {ToCheckButton} from "../buttons/ToCheckButton";
+import {Link} from "react-router-dom";
 
 
-export const GameWindow = () => {
+export const GameWindow = (props) => {
 	const [repo, setRepo] = useState([]);
 	const [stage, setStage] = useState([]);
 	const [localRepo, setLocalRepo] = useState([]);
@@ -28,7 +29,6 @@ export const GameWindow = () => {
 	const [story, setStory] = useState([]);
 	const [currentVal, setCurrentVal] = useState('');
 	const [currentFile, setCurrentFile]  = useState({text: " "})
-	const [infoActive, setInfoActive] = useState(false);
 	const [index, setIndex] = useState(story.length - 1);
 
 	const handleCommand = (event) => {
@@ -135,12 +135,15 @@ export const GameWindow = () => {
 					 <div className='comand-line'>
 						 <div className='task-info'>
 							 <div className='task'>
-								 task
+								 {props.task}
 							 </div>
 							 <div className={'console-buttons'}>
-								 <HomeButton classMane="icon"/>
-								 <InfoButton className="icon" onClick={() => setInfoActive(!infoActive)}/>
-								 <LevelsButton classMane="icon"/>
+								 <Link to={'/'} className={'icon'}>
+									 <HomeButton className="icon"/>
+								 </Link>
+								 <InfoButton className="icon" onClick={() => props.setLevelModal(!props.levelModal)}/>
+								 <LevelsButton className="icon"/>
+								 <ToCheckButton className="icon" onClick={() => props.handleCheck(localRepo, stage)}/>
 							 </div>
 
 						 </div>
@@ -234,11 +237,6 @@ export const GameWindow = () => {
 			 <LogPopUp active={modalLog} setActive={setModalLog} log={log}/>
 
 			 <Editor active={modalEditor} setActive={setModalEditor} currentFile={currentFile} setCurrentFile={setCurrentFile}	localRepo={localRepo}/>
-
-			 <Modal active={infoActive} setActive={setInfoActive}>
-				 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-				 industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type an
-			 </Modal>
 		 </div>
 	);
 };

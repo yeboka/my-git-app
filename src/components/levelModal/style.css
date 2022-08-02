@@ -63,3 +63,12 @@ span {
 .success-heading {
     color: #27C840;
 }
+
+.fail-heading {
+    color: crimson;
+}
+
+.h3{
+    margin: 0;
+    padding: 0;
+}

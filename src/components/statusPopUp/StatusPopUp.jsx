@@ -5,6 +5,7 @@ export const StatusPopUp = ({active, setActive, stage, localRepo, log}) => {
 
 
     const notStaged = localRepo.filter((file) => !file.staged)
+    console.log(notStaged)
     const commitsToPush = log.filter((file) => !file.isPushed)
     return (
         <div className = {active ? 'status-modal active' : 'status-modal'} onClick={() => {setActive(false)}}>
@@ -20,7 +21,7 @@ export const StatusPopUp = ({active, setActive, stage, localRepo, log}) => {
                     <p>Your branch is up to date with 'origin/main'.</p>
                 </div>
             </div>}
-            {(stage.length>0 && notStaged.length>0) ?
+            {(stage.length>0 || notStaged.length>0) ?
                 <>
 
                         {stage.length > 0 &&

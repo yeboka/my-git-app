@@ -4,7 +4,7 @@ import {Landing} from './components/landing/Landing';
 
 function App() {
 
-	// my git hub token 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
+	// my git hub token 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
 	return (
 		 <Landing/>
 	);
