@@ -1,0 +1,104 @@
+.menu {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gg {
+    width: 100px;
+    background-color: #49c1da;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+
+}
+
+.gg:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+
+.lev-name h2{
+    color: #FEBC2E;
+    display: flex;
+}
+
+.lev-name span {
+    margin: 0 5px;
+    padding: 0;
+    font-size: 20px;
+}
+
+.lev-modal {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+    background: -webkit-linear-gradient(top left, #b6d0cb 0%, #F5F5F5 100%);
+    background: linear-gradient(to bottom, #b6d0cb 0%, #F5F5F5 80%);
+
+}
+
+.lev-modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.lev-modal-content {
+    margin: 5px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color:#d8f2f0;
+    width: 40vw;
+    transition: 0.5s all;
+    transform: scale(0);
+    display: flex;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.lev-modal-content.active:hover {
+    transform: scale(1.1);
+
+}
+
+
+.lev-modal-content h2 {
+    margin: 0 5px;
+    padding: 0;
+    font-size: 30px;
+}
+
+.lev-modal-content p {
+    margin: 3px 5px;
+    color: #54C60F;
+    font-size: 20px;
+}
+
+.lev-modal-content .commes {
+    color: #1e1e1e;
+    font-size: 15px;
+}
+
+.lev-modal-content.active {
+    transform: scale(1);
+}
+
+span {
+    color:crimson;
+}

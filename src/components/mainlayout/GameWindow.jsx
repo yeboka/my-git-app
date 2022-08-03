@@ -143,7 +143,7 @@ export const GameWindow = (props) => {
 								 </Link>
 								 <InfoButton className="icon" onClick={() => props.setLevelModal(!props.levelModal)}/>
 								 <LevelsButton className="icon"/>
-								 <ToCheckButton className="icon" onClick={() => props.handleCheck(localRepo, stage)}/>
+								 <ToCheckButton className="icon" onClick={() => props.handleCheck(localRepo, stage, log)}/>
 							 </div>
 
 						 </div>
