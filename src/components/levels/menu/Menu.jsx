@@ -16,8 +16,8 @@ export const Menu = ({active, setActive}) => {
 
 	return (
 		 <div className={'lev-modal active'}>
-			 <div className="wrapper">
-				 <div className="mini-wrapper">
+			 <div className="bc">
+
 					 {levels.map((level) => (
 						  <Link to={`/levels/level${level.id}`} className={'link'}>
 							  <div key={level.id} className={'lev-modal-content active'}
@@ -36,24 +36,14 @@ export const Menu = ({active, setActive}) => {
 
 					 <div className="gg">
 						 <Link to={'/'}>
-							 <IconButton size={'large'} color={'warning'}>
-								 <HomeIcon fontSize={"inherit"}/>
+							 <IconButton size={'large'}>
+								 <HomeIcon fontSize={"inherit"} style={{fill: 'white'}}/>
 							 </IconButton>
 						 </Link>
 					 </div>
 				 </div>
-				 <ul className="bg-bubbles">
-					 <li></li>
-					 <li></li>
-					 <li></li>
-					 <li></li>
-					 <li></li>
-					 <li></li>
-					 <li></li>
-					 <li></li>
-					 <li></li>
-					 <li></li>
-				 </ul>
+			 <div className="cat-wrap">
+				 <Cat/>
 			 </div>
 
 		 </div>

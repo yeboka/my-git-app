@@ -20,7 +20,7 @@ return (
                      <Button className="start-bttn" variant={'contained'} color={'success'}>START>></Button>
                   </Link>
                   <Link to={'/levels'} className={'link'}>
-                     <Button className="levels-bttn" variant={'outlined'} color={'warning'}>LEVELS</Button>
+                     <Button className="levels-bttn" variant={'outlined'} color={'success'}>LEVELS</Button>
                   </Link>
                </div>
                <div className="cute-cat">
